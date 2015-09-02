@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["rr.manzo@gmail.com"]
 
   spec.summary       = %q{Automates most of the gem update process for Rails applications managed with bundler.}
-  spec.description   = %q{Automates most of the gem update process for Rails applications managed with bundler. By producing updating them, running the tests and them commiting them.}
+  spec.description   = %q{Automates most of the gem update process for Rails applications managed with bundler. By producing updating them, running the tests and then commiting them.}
   spec.homepage      = "http://github.com/rafamanzo/gisdatigo"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
