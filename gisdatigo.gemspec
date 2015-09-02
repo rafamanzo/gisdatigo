@@ -8,6 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Gisdatigo::VERSION
   spec.authors       = ["Rafael Reggiani Manzo"]
   spec.email         = ["rr.manzo@gmail.com"]
+  spec.license       = "LGPLv3"
 
   spec.summary       = %q{Automates most of the gem update process for Rails applications managed with bundler.}
   spec.description   = %q{Automates most of the gem update process for Rails applications managed with bundler. By producing updating them, running the tests and then commiting them.}
