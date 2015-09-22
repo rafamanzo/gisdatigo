@@ -21,7 +21,7 @@ module Gisdatigo
     end
 
     def commit(gem_name)
-      @git.commit_all("Auto updated: #{gem_name}") if @git.status.changed.count > 0
+      @git.commit_all("Auto updated: #{gem_name}") if self.has_changes?
     end
 
     def has_changes?
