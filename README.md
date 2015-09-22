@@ -1,6 +1,6 @@
 # Gisdatigo
 
-Automates most of the gem update process for Rails applications managed with bundler. By producing updating them, running the tests and then commiting them.
+Very opinionated automation for most of the gem update process for Rails applications managed with bundler. By updating them, running the tests and then committing them.
 
 ## Installation
 
