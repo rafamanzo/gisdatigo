@@ -4,7 +4,9 @@ Very opinionated automation for most of the gem update process for Rails applica
 
 ## Unreleased
 
+* Ignore coverage report for railtie
 * Gem version requirements relaxed
+* Update development Ruby version to 2.3.0
 
 ## v0.0.1 - 22/09/2015
 
