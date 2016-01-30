@@ -1,0 +1,14 @@
+# Revision history for Gisdatigo
+
+Very opinionated automation for most of the gem update process for Rails applications managed with bundler.
+
+## Unreleased
+
+* Gem version requirements relaxed
+
+## v0.0.1 - 22/09/2015
+
+* Updates through `bundle update`
+* Automated test run
+* Automated rollback upon test failure after update
+* Remaining outdated list production
