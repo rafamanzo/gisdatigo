@@ -7,6 +7,7 @@ Very opinionated automation for most of the gem update process for Rails applica
 * Ignore coverage report for railtie
 * Gem version requirements relaxed
 * Update development Ruby version to 2.3.0
+* Accept test_command configuration
 
 ## v0.0.1 - 22/09/2015
 
