@@ -28,5 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "mocha", "~> 1.1.0"
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "factory_girl", "~> 4.5.0"
-  spec.add_development_dependency "codeclimate-test-reporter"
+  spec.add_development_dependency "codeclimate-test-reporter", '< 1.0.0'
 end
