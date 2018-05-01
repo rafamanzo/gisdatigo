@@ -8,6 +8,7 @@ Very opinionated automation for most of the gem update process for Rails applica
 * Target development for ruby 2.5.1
 * Update rake
 * Update mocha
+* Replace factory_girl by factory_bot
 
 ## v0.1.0 - 30/01/2016
 

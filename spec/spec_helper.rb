@@ -12,8 +12,8 @@ end
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'gisdatigo'
 
-require 'factory_girl'
-FactoryGirl.find_definitions
+require 'factory_bot'
+FactoryBot.find_definitions
 
 RSpec.configure do |config|
 # The settings below are suggested to provide a good initial experience
