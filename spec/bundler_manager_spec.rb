@@ -6,7 +6,7 @@ describe Gisdatigo::BundlerManager do
       let(:gem_name) { 'gisdatigo' }
 
       it 'is expected to call the test command in the system' do
-        Gisdatigo::BundlerManager.expects(:system).with("bundle update #{gem_name} &> /dev/null").returns(true)
+        Gisdatigo::BundlerManager.expects(:system).with("bundle update --conservative #{gem_name} &> /dev/null").returns(true)
 
         Gisdatigo::BundlerManager.update_gem(gem_name)
       end

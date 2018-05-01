@@ -11,7 +11,7 @@ module Gisdatigo
     end
 
     def self.update_gem(gem_name)
-      system("bundle update #{gem_name} &> /dev/null")
+      system("bundle update --conservative #{gem_name} &> /dev/null")
     end
   end
 end
