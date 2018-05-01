@@ -111,17 +111,22 @@ describe Gisdatigo::GitManager do
           context 'and all the changes are modifications' do
             let(:head) { mock('head') }
             let(:head_target) { mock('head_target') }
+            let(:tree) { mock('tree') }
+            let(:tree_oid) { mock('tree_oid') }
             let(:commit_options) {
               {
                 message: "Auto updated: #{gem_name}",
-                parents: [head_target]
+                parents: [head_target],
+                tree: tree_oid
               }
             }
             let(:old_file) { {path: 'object/path' } }
 
             before do
-              head.expects(:target).returns(head_target)
-              rugged_repository.expects(:head).returns(head)
+              tree.expects(:oid).returns(tree_oid)
+              head_target.expects(:tree).returns(tree)
+              head.expects(:target).at_least_once.returns(head_target)
+              rugged_repository.expects(:head).at_least_once.returns(head)
 
               delta.expects(:old_file).returns(old_file)
               delta.expects(:status).returns(:modified)

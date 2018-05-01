@@ -34,7 +34,8 @@ module Gisdatigo
           @repository,
           {
             message: "Auto updated: #{gem_name}",
-            parents: [@repository.head.target]
+            parents: [@repository.head.target],
+            tree: @repository.head.target.tree.oid
           }
         )
       end
