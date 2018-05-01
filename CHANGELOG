@@ -9,6 +9,7 @@ Very opinionated automation for most of the gem update process for Rails applica
 * Update rake
 * Update mocha
 * Replace factory_girl by factory_bot
+* Replace git gem by rugged
 
 ## v0.1.0 - 30/01/2016
 

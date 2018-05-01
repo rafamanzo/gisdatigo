@@ -8,7 +8,7 @@ describe Gisdatigo::GitManager do
       end
 
       it 'is expected to open that repository' do
-        Git.expects(:open).with('.')
+        Rugged::Repository.expects(:new).with('.')
 
         Gisdatigo::GitManager.new
       end
@@ -49,22 +49,24 @@ describe Gisdatigo::GitManager do
     end
 
     describe 'instance' do
-      let(:git) { mock('git') }
+      let(:rugged_repository) { mock('rugged_repository') }
 
       before :each do
         Gisdatigo::GitManager.expects(:available?).returns(true)
-        Git.expects(:open).with('.').returns(git)
+        Rugged::Repository.expects(:new).with('.').returns(rugged_repository)
       end
 
       describe 'has_changes?' do
-        let(:status) { mock('status') }
+        let(:index) { mock('index') }
+        let(:diff) { mock('diff') }
 
         context 'when there are changes' do
-          let!(:changed) { [:revision1, :revision2] }
+          let!(:deltas) { [:revision1, :revision2] }
 
           before :each do
-            status.expects(:changed).returns(changed)
-            git.expects(:status).returns(status)
+            diff.expects(:deltas).returns(deltas)
+            index.expects(:diff).returns(diff)
+            rugged_repository.expects(:index).returns(index)
           end
 
           it 'is expected to return true' do
@@ -74,14 +76,15 @@ describe Gisdatigo::GitManager do
         end
 
         context 'when there are no changes' do
-          let!(:changed) { [] }
+          let!(:deltas) { [] }
 
           before :each do
-            status.expects(:changed).returns(changed)
-            git.expects(:status).returns(status)
+            diff.expects(:deltas).returns(deltas)
+            index.expects(:diff).returns(diff)
+            rugged_repository.expects(:index).returns(index)
           end
 
-          it 'is expected to return true' do
+          it 'is expected to return false' do
             subject = Gisdatigo::GitManager.new
             expect(subject.has_changes?).to be_falsey
           end
@@ -90,18 +93,46 @@ describe Gisdatigo::GitManager do
 
       describe 'commit' do
         subject { Gisdatigo::GitManager.new }
+        let(:gem_name) { 'test_gem' }
 
         context 'when there are changes' do
-          let(:gem_name) { 'test_gem' }
+          let(:index) { mock('index') }
+          let(:diff) { mock('diff') }
+          let(:delta) { mock('delta') }
 
           before :each do
             subject.expects(:has_changes?).returns(true)
+
+            diff.expects(:each_delta).yields(delta)
+            index.expects(:diff).returns(diff)
+            rugged_repository.expects(:index).at_least_once.returns(index)
           end
 
-          it 'is expected to call the git commit_all' do
-            git.expects(:commit_all).with("Auto updated: #{gem_name}")
+          context 'and all the changes are modifications' do
+            let(:message) { "Auto updated: #{gem_name}" }
+            let(:old_file) { {path: 'object/path' } }
 
-            subject.commit(gem_name)
+            before do
+              delta.expects(:old_file).returns(old_file)
+              delta.expects(:status).returns(:modified)
+            end
+
+            it 'is expected to commit all modified deltas' do
+              index.expects(:add).with(old_file[:path])
+              Rugged::Commit.expects(:create).with(rugged_repository, {message: message})
+
+              subject.commit(gem_name)
+            end
+          end
+
+          context 'and there are other changes than modifications' do
+            before do
+              delta.expects(:status).returns(:deleted)
+            end
+
+            it 'is expected to raise a RuntimeError' do
+              expect { subject.commit(gem_name) }.to raise_error(RuntimeError)
+            end
           end
         end
 
@@ -111,16 +142,21 @@ describe Gisdatigo::GitManager do
           end
 
           it 'is expected to return nil' do
-            expect(subject.commit('test')).to be_nil
+            expect(subject.commit(gem_name)).to be_nil
           end
         end
       end
 
       describe 'reset' do
         subject { Gisdatigo::GitManager.new }
+        let(:head) { mock('head') }
 
-        it 'is expected to call git reset' do
-          git.expects(:reset_hard)
+        before do
+          rugged_repository.expects(:head).returns(head)
+        end
+
+        it 'is expected to perform a hard git reset to HEAD' do
+          rugged_repository.expects(:reset).with(head, :hard)
 
           subject.reset
         end

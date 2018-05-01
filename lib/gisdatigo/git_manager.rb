@@ -1,11 +1,11 @@
 require 'gisdatigo'
-require 'git'
+require 'rugged'
 
 module Gisdatigo
   class GitManager
     def initialize
       if self.class.available?
-        @git = Git.open('.')
+        @repository = Rugged::Repository.new('.')
       else
         STDERR.puts "Git is not available in the system"
       end
@@ -21,15 +21,25 @@ module Gisdatigo
     end
 
     def commit(gem_name)
-      @git.commit_all("Auto updated: #{gem_name}") if self.has_changes?
+      if self.has_changes?
+        @repository.index.diff.each_delta do |delta|
+          if delta.status == :modified
+            @repository.index.add(delta.old_file[:path])
+          else
+            raise RuntimeError.new("Found a git delta which status is different from 'modified':\n\t#{delta.inspect}\n\nPlease ensure that the `git status` output is clear before using gisdatigo.")
+          end
+        end
+
+        Rugged::Commit.create(@repository, {message: "Auto updated: #{gem_name}"})
+      end
     end
 
     def has_changes?
-      @git.status.changed.count > 0
+      @repository.index.diff.deltas.count > 0
     end
 
     def reset
-      @git.reset_hard
+      @repository.reset(@repository.head, :hard)
     end
   end
 end
