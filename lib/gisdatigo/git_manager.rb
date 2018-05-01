@@ -30,7 +30,13 @@ module Gisdatigo
           end
         end
 
-        Rugged::Commit.create(@repository, {message: "Auto updated: #{gem_name}"})
+        Rugged::Commit.create(
+          @repository,
+          {
+            message: "Auto updated: #{gem_name}",
+            parents: [@repository.head.target]
+          }
+        )
       end
     end
 

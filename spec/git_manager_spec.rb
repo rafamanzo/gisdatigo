@@ -109,17 +109,27 @@ describe Gisdatigo::GitManager do
           end
 
           context 'and all the changes are modifications' do
-            let(:message) { "Auto updated: #{gem_name}" }
+            let(:head) { mock('head') }
+            let(:head_target) { mock('head_target') }
+            let(:commit_options) {
+              {
+                message: "Auto updated: #{gem_name}",
+                parents: [head_target]
+              }
+            }
             let(:old_file) { {path: 'object/path' } }
 
             before do
+              head.expects(:target).returns(head_target)
+              rugged_repository.expects(:head).returns(head)
+
               delta.expects(:old_file).returns(old_file)
               delta.expects(:status).returns(:modified)
             end
 
             it 'is expected to commit all modified deltas' do
               index.expects(:add).with(old_file[:path])
-              Rugged::Commit.expects(:create).with(rugged_repository, {message: message})
+              Rugged::Commit.expects(:create).with(rugged_repository, commit_options)
 
               subject.commit(gem_name)
             end
