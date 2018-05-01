@@ -18,6 +18,8 @@ Or install it yourself as:
 
     $ gem install gisdatigo
 
+Why I still consider this gem unstable (0.x.y)? Despite I've been using it for some years, I have still to hear from some independent user that it also works for him/her. If you are this person, please let me know!
+
 ## Usage
 
 ```
