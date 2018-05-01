@@ -99,9 +99,17 @@ describe Gisdatigo::GitManager do
           let(:index) { mock('index') }
           let(:diff) { mock('diff') }
           let(:delta) { mock('delta') }
+          let(:head) { mock('head') }
+          let(:head_target) { mock('head_target') }
+          let(:head_target_tree) { mock('head_target_tree') }
 
           before :each do
             subject.expects(:has_changes?).returns(true)
+
+            head_target.expects(:tree).returns(head_target_tree)
+            head.expects(:target).at_least_once.returns(head_target)
+            rugged_repository.expects(:head).at_least_once.returns(head)
+            index.expects(:read_tree).with(head_target_tree)
 
             diff.expects(:each_delta).yields(delta)
             index.expects(:diff).returns(diff)
@@ -109,24 +117,18 @@ describe Gisdatigo::GitManager do
           end
 
           context 'and all the changes are modifications' do
-            let(:head) { mock('head') }
-            let(:head_target) { mock('head_target') }
-            let(:tree) { mock('tree') }
-            let(:tree_oid) { mock('tree_oid') }
+            let(:commit_tree) { mock('commit_tree') }
             let(:commit_options) {
               {
                 message: "Auto updated: #{gem_name}",
                 parents: [head_target],
-                tree: tree_oid
+                tree: commit_tree
               }
             }
             let(:old_file) { {path: 'object/path' } }
 
             before do
-              tree.expects(:oid).returns(tree_oid)
-              head_target.expects(:tree).returns(tree)
-              head.expects(:target).at_least_once.returns(head_target)
-              rugged_repository.expects(:head).at_least_once.returns(head)
+              index.expects(:write_tree).with(rugged_repository).returns(commit_tree)
 
               delta.expects(:old_file).returns(old_file)
               delta.expects(:status).returns(:modified)

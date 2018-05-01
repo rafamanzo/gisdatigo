@@ -22,6 +22,11 @@ module Gisdatigo
 
     def commit(gem_name)
       if self.has_changes?
+        index = @repository.index
+
+        index.read_tree(@repository.head.target.tree)
+        commit_tree = nil
+
         @repository.index.diff.each_delta do |delta|
           if delta.status == :modified
             @repository.index.add(delta.old_file[:path])
@@ -30,12 +35,14 @@ module Gisdatigo
           end
         end
 
+        commit_tree = index.write_tree(@repository)
+
         Rugged::Commit.create(
           @repository,
           {
             message: "Auto updated: #{gem_name}",
             parents: [@repository.head.target],
-            tree: @repository.head.target.tree.oid
+            tree: commit_tree
           }
         )
       end
