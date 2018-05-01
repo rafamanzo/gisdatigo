@@ -42,7 +42,8 @@ module Gisdatigo
           {
             message: "Auto updated: #{gem_name}",
             parents: [@repository.head.target],
-            tree: commit_tree
+            tree: commit_tree,
+            update_ref: 'HEAD'
           }
         )
       end

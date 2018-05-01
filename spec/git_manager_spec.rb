@@ -122,7 +122,8 @@ describe Gisdatigo::GitManager do
               {
                 message: "Auto updated: #{gem_name}",
                 parents: [head_target],
-                tree: commit_tree
+                tree: commit_tree,
+                update_ref: 'HEAD'
               }
             }
             let(:old_file) { {path: 'object/path' } }
