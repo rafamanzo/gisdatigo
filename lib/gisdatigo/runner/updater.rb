@@ -3,14 +3,14 @@ module Gisdatigo
     class Updater < Base
       def update
         puts "Running updates:"
-        outdated_list = fetch_outdated_list
-        update_gems_with_options(outdated_list, ['--conservative'])
+        update_gems_with_options(['--conservative'])
       end
 
       private
 
-      def update_gems_with_options(outdated_list, options)
+      def update_gems_with_options(options)
         current_package = 1
+        outdated_list = fetch_outdated_list
 
         outdated_list.each do |gem_name|
           puts "\t#{current_package}/#{outdated_list.count} - Updating #{gem_name}"

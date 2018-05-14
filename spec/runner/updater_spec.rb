@@ -9,12 +9,10 @@ describe Gisdatigo::Runner::Updater do
 
   describe 'methods' do
     describe 'update' do
-      let(:outdated_gems_list) { mock('outdated_gems_list') }
       let(:conservative_options) { ['--conservative'] }
 
-      it 'is expected to retrieve the outdated list and try to update' do
-        subject.expects(:fetch_outdated_list).returns(outdated_gems_list)
-        subject.expects(:update_gems_with_options).with(outdated_gems_list, conservative_options)
+      it 'is expected to update run update the outdated gem list' do
+        subject.expects(:update_gems_with_options).with(conservative_options)
 
         expect { subject.update }.to output("Running updates:\n").to_stdout
       end
@@ -31,8 +29,9 @@ describe Gisdatigo::Runner::Updater do
       it 'is expected to call the BundlerManager#update, print status and commit' do
         expected_out = "\t1/1 - Updating #{outdated_gem_name}\n"
         subject.expects(:commit).with(outdated_gem_name)
+        subject.expects(:fetch_outdated_list).returns(outdated_gems_list)
 
-        expect { subject.send(:update_gems_with_options, outdated_gems_list, options) }.to output(expected_out).to_stdout
+        expect { subject.send(:update_gems_with_options, options) }.to output(expected_out).to_stdout
       end
     end
 
