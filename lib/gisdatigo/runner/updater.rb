@@ -2,8 +2,11 @@ module Gisdatigo
   module Runner
     class Updater < Base
       def update
-        puts "Running updates:"
+        puts "Running conservative updates:"
         update_gems_with_options(['--conservative'])
+
+        puts "\nRunning default updates:"
+        update_gems_with_options([])
       end
 
       private

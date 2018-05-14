@@ -11,10 +11,11 @@ describe Gisdatigo::Runner::Updater do
     describe 'update' do
       let(:conservative_options) { ['--conservative'] }
 
-      it 'is expected to update run update the outdated gem list' do
+      it 'is expected to try to update the outdated gem list twice with both conservative and default options' do
         subject.expects(:update_gems_with_options).with(conservative_options)
+        subject.expects(:update_gems_with_options).with([])
 
-        expect { subject.update }.to output("Running updates:\n").to_stdout
+        expect { subject.update }.to output("Running conservative updates:\n\nRunning default updates:\n").to_stdout
       end
     end
   end
