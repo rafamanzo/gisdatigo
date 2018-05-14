@@ -11,13 +11,19 @@ module Gisdatigo
         current_package = 1
         outdated_list.each do |gem_name|
           puts "\t#{current_package}/#{outdated_list.count} - Updating #{gem_name}"
-          BundlerManager.update_gem(gem_name)
+          BundlerManager.update_gem(gem_name, ['--conservative'])
+          commit(gem_name)
+          current_package = current_package + 1
+        end
+      end
+
+      private
+
+      def commit(gem_name)
           if @git_manager.has_changes?
             test("ERROR: Failed to update #{gem_name}! Tests were broken!")
             @git_manager.commit(gem_name)
           end
-          current_package = current_package + 1
-        end
       end
     end
   end

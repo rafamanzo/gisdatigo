@@ -10,8 +10,8 @@ module Gisdatigo
       outdated_gems.map { |gem_line| gem_line.gsub(GEM_LINE_BEGINNING, '').split(" ")[0] }
     end
 
-    def self.update_gem(gem_name)
-      system("bundle update --conservative #{gem_name} &> /dev/null")
+    def self.update_gem(gem_name, opts=[])
+      system("bundle update #{opts.join(' ')} #{gem_name} &> /dev/null")
     end
   end
 end
