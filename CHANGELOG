@@ -4,8 +4,14 @@ Very opinionated automation for most of the gem update process for Rails applica
 
 ## Unreleased
 
+## v0.3.0 - 01/05/2018
+
 * Run bundle update with conservative flag
 * Run two updates with different options
+
+## v0.2.1 - 01/05/2018
+
+* Fix release mistakes (sorry)
 
 ## v0.2.0 - 01/05/2018
 
