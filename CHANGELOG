@@ -4,6 +4,8 @@ Very opinionated automation for most of the gem update process for Rails applica
 
 ## Unreleased
 
+* Fix changes being listed in `git status` but that were already commited
+
 ## v0.3.0 - 01/05/2018
 
 * Run bundle update with conservative flag

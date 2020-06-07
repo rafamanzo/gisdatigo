@@ -137,6 +137,7 @@ describe Gisdatigo::GitManager do
 
             it 'is expected to commit all modified deltas' do
               index.expects(:add).with(old_file[:path])
+              index.expects(:write)
               Rugged::Commit.expects(:create).with(rugged_repository, commit_options)
 
               subject.commit(gem_name)

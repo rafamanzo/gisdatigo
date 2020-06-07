@@ -46,6 +46,8 @@ module Gisdatigo
             update_ref: 'HEAD'
           }
         )
+
+        @repository.index.write
       end
     end
 
