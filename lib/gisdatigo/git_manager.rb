@@ -56,7 +56,7 @@ module Gisdatigo
     end
 
     def reset
-      @repository.reset(@repository.head, :hard)
+      @repository.reset('HEAD', :hard)
     end
   end
 end

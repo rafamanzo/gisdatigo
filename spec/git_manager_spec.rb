@@ -168,11 +168,7 @@ describe Gisdatigo::GitManager do
 
       describe 'reset' do
         subject { Gisdatigo::GitManager.new }
-        let(:head) { mock('head') }
-
-        before do
-          rugged_repository.expects(:head).returns(head)
-        end
+        let(:head) { 'HEAD' }
 
         it 'is expected to perform a hard git reset to HEAD' do
           rugged_repository.expects(:reset).with(head, :hard)
