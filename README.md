@@ -1,5 +1,7 @@
 # Gisdatigo
 
+[![Gem Version](https://badge.fury.io/rb/gisdatigo.svg)](https://badge.fury.io/rb/gisdatigo)
+
 Very opinionated automation for most of the gem update process for Rails applications managed with bundler. By updating them, running the tests and then committing them.
 
 ## Installation
@@ -7,7 +9,7 @@ Very opinionated automation for most of the gem update process for Rails applica
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'gisdatigo', '~> 0.0.1'
+gem 'gisdatigo'
 ```
 
 And then execute:
@@ -23,7 +25,7 @@ Why I still consider this gem unstable (0.x.y)? Despite I've been using it for s
 ## Usage
 
 ```
-rake gistadigo:run
+rake gisdatigo:run
 ```
 
 ## Development
