@@ -4,6 +4,8 @@ Very opinionated automation for most of the gem update process for Rails applica
 
 ## Unreleased
 
+* Fix commands not waiting before continuing
+
 ## v0.4.0 - 24/05/2022
 
 * Add CLI

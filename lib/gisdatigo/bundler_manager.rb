@@ -11,7 +11,7 @@ module Gisdatigo
     end
 
     def self.update_gem(gem_name, opts=[])
-      system("bundle update #{opts.join(' ')} #{gem_name} &> /dev/null")
+      system("bundle update #{opts.join(' ')} #{gem_name} > /dev/null 2>&1")
     end
   end
 end

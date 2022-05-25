@@ -7,7 +7,7 @@ describe Gisdatigo::BundlerManager do
       let(:options) { ['--conservative'] }
 
       it 'is expected to call the test command in the system' do
-        Gisdatigo::BundlerManager.expects(:system).with("bundle update #{options.join(' ')} #{gem_name} &> /dev/null").returns(true)
+        Gisdatigo::BundlerManager.expects(:system).with("bundle update #{options.join(' ')} #{gem_name} > /dev/null 2>&1").returns(true)
 
         Gisdatigo::BundlerManager.update_gem(gem_name, options)
       end
